@@ -28,16 +28,20 @@ st.markdown("""
 .stApp {
     background: linear-gradient(
         135deg,
-        #dbeafe,
-        #bfdbfe,
-        #93c5fd
+        #fff3b0,
+        #ffcf99,
+        #ff9f1c
     );
     background-attachment: fixed;
 }
 
 h1, h2, h3 {
-    color: #0f172a;
+    color: #7f4f24;
     text-align: center;
+}
+
+p, label, div {
+    color: #5a3e1b;
 }
 
 [data-testid="stSidebar"] {
@@ -46,16 +50,17 @@ h1, h2, h3 {
 }
 
 .stButton>button {
-    background-color: #2563eb;
+    background-color: #ff7b00;
     color: white;
     border-radius: 14px;
     border: none;
     padding: 0.7rem 1rem;
     font-weight: bold;
+    transition: 0.3s;
 }
 
 .stButton>button:hover {
-    background-color: #3b82f6;
+    background-color: #ff9500;
     color: white;
 }
 
@@ -89,7 +94,7 @@ def on_message(client, userdata, message):
         message.payload.decode("utf-8")
     )
 
-    st.success("Mensaje recibido")
+    st.success("📩 Mensaje recibido")
 
     st.write(message_received)
 
@@ -102,7 +107,7 @@ client1.on_message = on_message
 st.title("🎙️ VoiceControl AI")
 
 st.markdown("""
-### Controla dispositivos mediante comandos de voz usando MQTT
+### Control inteligente de dispositivos mediante comandos de voz y MQTT
 """)
 
 st.markdown("---")
@@ -115,11 +120,11 @@ image = Image.open('Correa.jpg')
 
 st.image(
     image,
-    width=250
+    width=260
 )
 
 # =========================================
-# COMANDOS DISPONIBLES
+# COMANDOS
 # =========================================
 
 with st.expander("📖 Comandos disponibles"):
@@ -135,7 +140,11 @@ with st.expander("📖 Comandos disponibles"):
 # TEXTO
 # =========================================
 
-st.subheader("🎤 Presiona el botón y habla")
+st.subheader("🎤 Presiona el botón y da un comando")
+
+st.info("""
+📡 El sistema reconocerá tu voz y enviará el comando automáticamente mediante MQTT.
+""")
 
 # =========================================
 # BOTÓN VOZ
@@ -208,7 +217,7 @@ if result:
 
         st.markdown("## 🗣️ Comando Detectado")
 
-        st.info(comando)
+        st.success(comando)
 
         # MQTT
         client1.on_publish = on_publish
@@ -223,14 +232,14 @@ if result:
             "Act1": comando
         })
 
-        # PUBLICAR EN EL TOPIC CORRECTO
+        # PUBLICAR
         ret = client1.publish(
             "voice_ctrl",
             message
         )
 
         st.success(
-            "✅ Comando enviado correctamente"
+            "✅ Comando enviado correctamente al ESP32"
         )
 
 # =========================================
