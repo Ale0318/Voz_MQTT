@@ -116,7 +116,7 @@ st.markdown("---")
 # IMAGEN
 # =========================================
 
-image = Image.open('Correa.jpg')
+image = Image.open('voz.jpg')
 
 st.image(
     image,
